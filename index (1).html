@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffe6ef">
+<title>တစ်ခါလောက် ပြန်စကြမလား? 💗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px 14px;display:grid;place-items:center;background:linear-gradient(135deg,#fff1f5,#ffd6e6);font-family:system-ui,-apple-system,"Noto Sans Myanmar",sans-serif;color:#654052}
+.card{width:min(100%,430px);background:#fff;border-radius:28px;padding:28px 20px;text-align:center;box-shadow:0 14px 45px #b85d801f;border:1px solid #fff}
+.heart{font-size:65px;margin-bottom:10px}
+h1{font-size:clamp(22px,6vw,28px);line-height:1.65;margin:0 0 12px;color:#a94770}
+p{font-size:15px;line-height:2;color:#896879;margin:0 0 20px}
+.stage{height:150px;position:relative;display:flex;justify-content:center;align-items:flex-start;gap:16px;padding-top:10px;overflow:hidden}
+button{border:0;border-radius:999px;padding:13px 24px;min-width:116px;font:inherit;font-size:16px;font-weight:700;box-shadow:0 5px 14px #74445a20;cursor:pointer;touch-action:manipulation}
+#yes{background:#f36f9e;color:white}
+#no{background:#eee8ec;color:#755c69;position:absolute;left:calc(50% + 12px);top:10px;transition:left .18s ease,top .18s ease}
+#result{display:none;margin-top:10px;padding:17px 14px;border-radius:18px;background:#fff0f6;color:#a94770;line-height:2;font-size:15px}
+.note{font-size:12px;color:#bd91a5;margin-top:16px}
+.heartbit{position:fixed;bottom:-30px;pointer-events:none;animation:up 3.5s linear forwards}
+@keyframes up{to{transform:translateY(-110vh) rotate(35deg);opacity:0}}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="heart">💌</div>
+  <h1 id="title">တစ်ခါလောက် ပြန်စကြမလား? 🥺</h1>
+  <p id="message">အရင်က ဖြစ်ခဲ့တာတွေအတွက် တကယ်စိတ်မကောင်းပါဘူး။<br>မင်းကို ဖိအားပေးချင်တာမဟုတ်ဘူး။<br>ငါတို့နှစ်ယောက်ကို နောက်တစ်ကြိမ် အခွင့်အရေးပေးနိုင်မလား? 💗</p>
+  <section class="stage" id="stage" aria-label="ရွေးချယ်ရန်">
+    <button id="yes" type="button">YES 💖</button>
+    <button id="no" type="button">NO 🥺</button>
+  </section>
+  <div id="result" role="status" aria-live="polite"></div>
+  <div class="note">မင်းရဲ့ဆုံးဖြတ်ချက်ကို လေးစားပါတယ် ♡</div>
+</main>
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const no = document.getElementById('no');
+  const yes = document.getElementById('yes');
+  const title = document.getElementById('title');
+  const message = document.getElementById('message');
+  const result = document.getElementById('result');
+  let tries = 0;
+  let settled = false;
+
+  function moveNo() {
+    if (settled) return;
+    tries++;
+    if (tries >= 5) {
+      settled = true;
+      no.style.left = '50%';
+      no.style.top = '82px';
+      no.style.transform = 'translateX(-50%)';
+      title.textContent = 'နောက်ဆုံးတစ်ခါ စဉ်းစားပေးပါဦး 🥺';
+      message.innerHTML = 'မင်း မရွေးချယ်ချင်ရင်လည်း ရပါတယ်။<br>ကိုယ့်စိတ်တိုင်းကျ ဆုံးဖြတ်ပါနော်။';
+      return;
+    }
+    const maxX = Math.max(0, stage.clientWidth - no.offsetWidth);
+    const maxY = Math.max(0, stage.clientHeight - no.offsetHeight);
+    no.style.transform = 'none';
+    no.style.left = Math.round(Math.random() * maxX) + 'px';
+    no.style.top = Math.round(Math.random() * maxY) + 'px';
+    title.textContent = ['ဟယ်… NO က ပြေးသွားပြီ 😹','မလွယ်ဘူးနော် 🥹','တစ်ခါလောက် ထပ်စဉ်းစားပေးပါဦး 💗','မင်းကို ဖိအားမပေးပါဘူးနော်'][tries-1];
+  }
+
+  no.addEventListener('click', () => {
+    if (!settled) {
+      moveNo();
+    } else {
+      stage.style.display = 'none';
+      title.textContent = 'မင်းရဲ့ဆုံးဖြတ်ချက်ကို လေးစားပါတယ် 🤍';
+      result.style.display = 'block';
+      result.textContent = 'ပြန်လက်မခံချင်လည်း နားလည်ပါတယ်။ အချိန်ပေးပြီး ဖတ်ပေးတာ ကျေးဇူးပါ။ ပျော်ရွှင်ပါစေနော်။';
+    }
+  });
+
+  yes.addEventListener('click', () => {
+    stage.style.display = 'none';
+    title.textContent = 'အခွင့်အရေးပေးလို့ ကျေးဇူးပါ 🥹💗';
+    message.style.display = 'none';
+    result.style.display = 'block';
+    result.innerHTML = 'ဒီတစ်ခါ ပိုနားလည်ပေးပြီး ပိုဂရုစိုက်ပါမယ်။<br>စကားနဲ့ပဲမဟုတ်ဘဲ လုပ်ရပ်နဲ့ သက်သေပြပါမယ်။<br>အတူတူ ဖြည်းဖြည်းချင်း ပြန်စကြမယ်နော်။ 💞';
+    for (let i=0;i<22;i++) setTimeout(makeHeart, i*100);
+  });
+
+  function makeHeart() {
+    const el = document.createElement('span');
+    el.className = 'heartbit';
+    el.textContent = ['💗','💕','💖','♡'][Math.floor(Math.random()*4)];
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.fontSize = (17+Math.random()*18) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3600);
+  }
+})();
+</script>
+</body>
+</html>

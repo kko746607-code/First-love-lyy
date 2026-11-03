@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffe5ef">
+<title>First love lyy 💗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:18px;background:linear-gradient(140deg,#fff0f5,#ffd3e4);font-family:system-ui,sans-serif;color:#704055}
+.card{width:min(100%,430px);padding:28px 20px;text-align:center;background:#fff;border-radius:28px;box-shadow:0 16px 45px #a84c761f}
+.cat{font-size:64px}h1{font-size:clamp(22px,6vw,28px);line-height:1.6;color:#ad4775}
+p{font-size:15px;line-height:1.9;color:#896879}
+.stage{height:190px;position:relative;margin-top:12px;border-radius:20px;background:#fff6fa;overflow:hidden}
+button{border:0;border-radius:999px;padding:13px 23px;font:700 17px system-ui;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+#yes{position:absolute;left:9%;top:48px;background:#f56e9e;color:white;z-index:2;box-shadow:0 7px 18px #f56e9e55;transition:all .35s ease}
+#no{position:absolute;right:9%;top:48px;background:#eee8ec;color:#765c6a;z-index:3;transition:left .18s,top .18s}
+#reply{display:none;margin-top:18px;padding:16px;border-radius:18px;background:#fff0f6;color:#a34470;line-height:1.9}
+.tiny{font-size:12px;color:#bd91a5;margin-top:14px}
+.heart{position:fixed;bottom:-30px;pointer-events:none;animation:up 4s linear forwards}
+@keyframes up{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="cat">🐱💗</div>
+<h1 id="heading">ငါတို့ ပြန်စကြည့်ကြမလား? 🥺</h1>
+<p id="message">အရင်က အမှားတွေအတွက် တကယ်တောင်းပန်ပါတယ်။<br>ဒီတစ်ခါ ပိုဂရုစိုက်ပြီး နားလည်ပေးပါ့မယ်။</p>
+<div class="stage" id="stage">
+<button id="yes" type="button">YES 💖</button>
+<button id="no" type="button">NO 🤍</button>
+</div>
+<div id="reply" aria-live="polite"></div>
+<div class="tiny">A little message from my heart ♡</div>
+</main>
+<script>
+(()=>{
+ const stage=document.getElementById('stage'), yes=document.getElementById('yes'), no=document.getElementById('no');
+ const heading=document.getElementById('heading'), message=document.getElementById('message'), reply=document.getElementById('reply');
+ let taps=0, done=false;
+ function dodge(){
+   if(done)return;
+   taps++;
+   const maxX=Math.max(0,stage.clientWidth-no.offsetWidth-8);
+   const maxY=Math.max(0,stage.clientHeight-no.offsetHeight-8);
+   no.style.left=(4+Math.random()*maxX)+'px';
+   no.style.top=(4+Math.random()*maxY)+'px';
+   no.style.right='auto';
+   const scale=Math.min(1+taps*.16,2.1);
+   yes.style.transform='scale('+scale+')';
+   yes.style.left='50%';
+   yes.style.top='50%';
+   yes.style.translate='-50% -50%';
+   yes.style.fontSize=(17+Math.min(taps,7)*1.2)+'px';
+   yes.style.padding=(13+Math.min(taps,7)*1.4)+'px '+(23+Math.min(taps,7)*2.2)+'px';
+   heading.textContent=['ဟယ်… NO က ပြေးသွားပြီ 😹','YES လေး ပိုကြီးလာပြီနော် 💗','တစ်ခါလောက် ထပ်စဉ်းစားပေးပါဦး 🥺','YES က ပိုပိုကြီးလာပြီ 🙈','နောက်ဆုံးအကြိမ်လေးနော် 💞'][Math.min(taps-1,4)];
+   if(taps>=6){
+     no.style.display='none';
+     heading.textContent='ရွေးချယ်စရာက YES တစ်ခုပဲ ကျန်ပြီ 😻';
+     yes.style.transform='translate(-50%,-50%) scale(1.65)';
+     yes.style.fontSize='25px';
+     yes.style.padding='22px 44px';
+   }
+ }
+ no.addEventListener('click',dodge);
+ yes.addEventListener('click',()=>{
+   if(done)return; done=true;
+   stage.style.display='none';
+   heading.textContent='Yay! 💗';
+   message.style.display='none';
+   reply.style.display='block';
+   reply.innerHTML='အခွင့်အရေးပေးလို့ ကျေးဇူးပါနော် 🥹<br>ဒီတစ်ခါ စကားနဲ့တင်မဟုတ်ဘဲ လုပ်ရပ်နဲ့ ပိုဂရုစိုက်ပြပါမယ်။ 💞';
+   for(let i=0;i<22;i++)setTimeout(()=>{
+     const h=document.createElement('span');h.className='heart';h.textContent=['💗','💕','💖','♡'][Math.floor(Math.random()*4)];
+     h.style.left=Math.random()*100+'vw';h.style.fontSize=(18+Math.random()*18)+'px';document.body.appendChild(h);setTimeout(()=>h.remove(),4100);
+   },i*100);
+ });
+})();
+</script>
+</body>
+</html>
